@@ -92,7 +92,7 @@ class CurlClient implements ClientInterface
 
 		if ( $is_file ) {
 			if ( defined('CURLOPT_SAFE_UPLOAD') ) {
-				curl_setopt($curl, CURLOPT_SAFE_UPLOAD, false);
+				//curl_setopt($curl, CURLOPT_SAFE_UPLOAD, false);
 			}
 
 			curl_setopt($curl, CURLOPT_HTTPHEADER, array('X-Atlassian-Token: nocheck'));
@@ -105,7 +105,7 @@ class CurlClient implements ClientInterface
 			curl_setopt($curl, CURLOPT_POST, 1);
 
 			if ( $is_file ) {
-				$data['file'] = $this->getCurlValue($data['file']);
+				$data['file'] = $this->getCurlValue($data['file'], $data['file_name']);
 				curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 			}
 			else {
@@ -152,13 +152,13 @@ class CurlClient implements ClientInterface
 	 *
 	 * @return \CURLFile|string
 	 */
-	protected function getCurlValue($file_string)
+	protected function getCurlValue($file_string, $file_name)
 	{
 		if ( !function_exists('curl_file_create') ) {
 			return $file_string . '; filename=' . basename($file_string);
 		}
 
-		return curl_file_create(substr($file_string, 1), null, basename($file_string));
+		return curl_file_create(substr($file_string, 1), null, basename($file_name));
 	}
 
 }

@@ -626,11 +626,12 @@ class Api
 	 *
 	 * @return Result|false
 	 */
-	public function createAttachment($issue_key, $filename, array $options = array())
+	public function createAttachment($issue_key, $filename, $postName, array $options = array())
 	{
 		$options = array_merge(
 			array(
 				'file' => '@' . $filename,
+				'file_name' => $postName,
 			),
 			$options
 		);
